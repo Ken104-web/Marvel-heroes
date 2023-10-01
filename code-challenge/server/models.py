@@ -1,10 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
-
+from sqlalchemy_serializer import SerializerMixin
 db = SQLAlchemy()
 
 # add any models you may need. 
-class Hero(db.Model):
+class Hero(db.Model, SerializerMixin):
     __tablename__ = 'heroes'
+
+    serialize_rules = ('-powers',)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -15,9 +17,10 @@ class Hero(db.Model):
     # - A Hero has many Power`s through HeroPower
     powers = db.relationship('Power', secondary = 'hero_powers', back_populates="heroes")
 
-
-class Power(db.Model):
+    
+class Power(db.Model, SerializerMixin):
     __tablename__ = 'powers'
+    serialize_rules = ('-hero.powers',)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)

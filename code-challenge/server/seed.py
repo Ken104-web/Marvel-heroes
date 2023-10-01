@@ -60,7 +60,7 @@ with app.app_context():
     ]
     superhero_names = [
         'Spider-Man',
-        'Captain America'
+        'Captain America',
         'Black Widow',
         'Iron Man',
         'The Hulk',
@@ -73,7 +73,7 @@ with app.app_context():
     random.shuffle(names)
     random.shuffle(superhero_names)
     heroes = []
-    for h in range(9):
+    for h in range(10):
         print('**start**')
         place_heroes =Hero(name=names[h], super_name=superhero_names[h])
         heroes.append(place_heroes)
@@ -85,7 +85,7 @@ with app.app_context():
     heroPowers = []
     for i in range(10):
             print('***Hello**')
-            hp = HeroPower(strength=(randint(1, 1000)), hero_id=randint(1, 10), powers_id=randint(1, 10))
+            hp = HeroPower(strength=random.randint(1, 100), hero_id=random.randint(1, len(heroes)), powers_id=random.randint(1, len(powers)))
             heroPowers.append(hp)
             print('***All Okay***')
     db.session.add_all(heroPowers)
