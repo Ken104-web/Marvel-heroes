@@ -1,4 +1,5 @@
-import random
+import random 
+from random import randint
 from app import app
 from models import db, Hero, Power, HeroPower
 
@@ -80,5 +81,14 @@ with app.app_context():
     db.session.add_all(heroes)
     db.session.commit()
     print('***done***')
+
+    heroPowers = []
+    for i in range(10):
+            print('***Hello**')
+            hp = HeroPower(strength=(randint(1, 1000)), hero_id=randint(1, 10), powers_id=randint(1, 10))
+            heroPowers.append(hp)
+            print('***All Okay***')
+    db.session.add_all(heroPowers)
+    db.session.commit()
 
          
