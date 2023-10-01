@@ -46,9 +46,22 @@ class GetPowers(Resource):
             200,
         )
         return resp
+
 api.add_resource(GetPowers, '/powers')
 
-
+class GetEachPower(Resource):
+    def get(self, id):
+        each_power = Power.query.filter_by(id=id).first()
+        if each_power:
+            power_data = each_power.to_dict()
+            resp = make_response(
+                power_data,
+                200,
+            )
+            return resp
+        else:
+            raise ValueError("Power not found")
+api.add_resource(GetEachPower, '/powers/<int:id>')
 
 
 
