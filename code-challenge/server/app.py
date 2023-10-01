@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, make_response, jsonify
+from flask import Flask, make_response, jsonify, request
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 
@@ -61,6 +61,19 @@ class GetEachPower(Resource):
             return resp
         else:
             raise ValueError("Power not found")
+    def patch(self, id):
+        updatePower = Power.query.filter_by(id=id).first()
+        for attr in request.form:
+            setattr(updatePower, attr, request.form[attr])
+
+        db.session.add(updatePower)
+        db.session.commit()
+        resp_dict = updatePower.to_dict()
+        resp =make_response(
+            jsonify(resp_dict),
+            200
+        )
+        return resp
 api.add_resource(GetEachPower, '/powers/<int:id>')
 
 
