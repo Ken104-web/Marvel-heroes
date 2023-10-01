@@ -85,7 +85,7 @@ with app.app_context():
     heroPowers = []
     for i in range(10):
             print('***Hello**')
-            hp = HeroPower(strength=random.randint(1, 100), hero_id=random.randint(1, len(heroes)), powers_id=random.randint(1, len(powers)))
+            hp = HeroPower(strength=random.choice(['strong','weak', 'average']), hero_id=random.randint(1, len(heroes)), powers_id=random.randint(1, len(powers)))
             heroPowers.append(hp)
             print('***All Okay***')
     db.session.add_all(heroPowers)
