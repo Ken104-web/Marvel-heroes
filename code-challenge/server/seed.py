@@ -45,4 +45,40 @@ with app.app_context():
     db.session.commit()
     print('**all good***')
 
-    
+    names = [
+    'Peter Parker',
+    'Steve Rogers',	
+    'Natasha Romanoff',	
+    'Tony Stark',
+    'Bruce Banner',	
+    'Thor Odinson',
+    'Carol Danvers',	
+    'Scott Lang',
+    "T'Challa",	
+    'Matt Murdock'
+    ]
+    superhero_names = [
+        'Spider-Man',
+        'Captain America'
+        'Black Widow',
+        'Iron Man',
+        'The Hulk',
+        'Thor',
+        'Captain Marvel',
+       ' Ant-Man',
+        'Black Panther',
+        'Daredevil'
+    ]
+    random.shuffle(names)
+    random.shuffle(superhero_names)
+    heroes = []
+    for h in range(9):
+        print('**start**')
+        place_heroes =Hero(name=names[h], super_name=superhero_names[h])
+        heroes.append(place_heroes)
+        print('**continue***')
+    db.session.add_all(heroes)
+    db.session.commit()
+    print('***done***')
+
+         
