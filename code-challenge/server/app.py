@@ -15,6 +15,7 @@ db.init_app(app)
 
 api = Api(app)
 
+
 class Home(Resource):
     def get(self):
         resp_dict = {
@@ -36,6 +37,20 @@ class HeroNames(Resource):
         )
         return resp
 api.add_resource(HeroNames, '/heroes')
+
+class EachHero(Resource):
+     def get(self, id):
+        each_hero = Hero.query.filter_by(id=id).first()
+        if each_hero:
+            hero_data = each_hero.to_dict()
+            resp = make_response(
+                hero_data,
+                200,
+            )
+            return resp
+        else:
+            raise ValueError("Hero not found")
+api.add_resource(EachHero, '/heroes/<int:id>')
 
 class GetPowers(Resource):
     def get(self):
@@ -75,8 +90,19 @@ class GetEachPower(Resource):
         )
         return resp
 api.add_resource(GetEachPower, '/powers/<int:id>')
-
-
+class PostHeroPower(Resource):
+    def post(self):
+        data = request.get_json()        
+        hero_power = HeroPower(
+            strength=data['id'],
+            power_id=['power_id'],
+            hero_id=data['hero_id'],
+        )
+        db.session.add(hero_power)
+        db.session.commit()
+        return make_response(hero_power.to_dict(), 201)
+    
+api.add_resource(PostHeroPower, '/heropower')
 
 if __name__ == '__main__':
     app.run(port=5555)
