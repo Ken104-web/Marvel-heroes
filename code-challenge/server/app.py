@@ -1,10 +1,19 @@
 #!/usr/bin/env python3
 
-from flask import Flask, make_response, jsonify, request
+from flask import Flask, make_response, jsonify, request, render_template
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
+from dotenv import load_dotenv
+load_dotenv()
 
 from models import db, Hero, Power, HeroPower
+
+app = Flask(
+    __name__,
+    static_url_path='',
+    static_folder='../client/build',
+    template_folder='../client/build'
+)
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -13,6 +22,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 migrate = Migrate(app, db)
 db.init_app(app)
 
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("index.html")
 api = Api(app)
 
 
